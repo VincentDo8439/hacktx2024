@@ -1,9 +1,7 @@
 from flask import Flask, Blueprint, request, jsonify
-from firebase import get_db
+from firebase import db
 
 user_routes = Blueprint('user_routes', __name__)
-db = get_db() 
-
 @user_routes.route('/')
 def home():
     # Retrieve all documents in the 'users' collection
