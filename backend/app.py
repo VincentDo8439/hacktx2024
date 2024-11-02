@@ -10,4 +10,4 @@ app.register_blueprint(card_routes, url_prefix='/card')
 app.register_blueprint(trade_routes, url_prefix='/trade')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
