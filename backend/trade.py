@@ -71,3 +71,102 @@ def get_user_trades():
             user_trades.append(trade_data)
 
     return jsonify(user_trades)  # Return matched trades as JSON array
+
+# Not Tested
+@trade_routes.route('/accept_trade', methods=['POST'])
+def accept_trade():
+    data = request.get_json()  # Retrieve JSON data from the request
+
+    # Placeholder for retrieving necessary fields from the data
+    document_id = data.get('id')  # Example field
+    trade_ref = db.collection('trades').document(document_id)
+    trade_doc = trade_ref.get()
+
+    if not trade_doc.exists:
+        return jsonify({"error": "Trade document not found"}), 404
+
+    # Convert trade document to dictionary and get required fields
+    trade_data = trade_doc.to_dict()
+    user_id_one = trade_data.get("user_id_one")
+    user_id_two = trade_data.get("user_id_two")
+    card_id_one = trade_data.get("card_id_one")
+    card_id_two = trade_data.get("card_id_two")
+
+    # Step 1 - update user_one_id's card_array (add card_id_two)
+    user_ref_one = db.collection('users').document(user_id_one)
+    user_doc_one = user_ref_one.get()
+
+    if not user_doc_one.exists:
+        return jsonify({"error": "User document not found"}), 404
+
+    # Get the user's card_array and update it with card_id_two
+    user_data = user_doc_one.to_dict()
+    card_array = user_data.get("card_array", [])  # Default to empty array if not present
+    card_array.append(card_id_two)
+
+    user_ref_one.update({"card_array": card_array})
+
+    # Step 2 - update user_two_id's card_array (add card_id_two)
+    user_ref_two = db.collection('users').document(user_id_two)
+    user_doc_two = user_ref_two.get()
+
+    if not user_doc_two.exists:
+        return jsonify({"error": "User document not found"}), 404
+
+    # Get the user's card_array and update it with card_id_two
+    user_data_two = user_doc_two.to_dict()
+    card_array = user_data_two.get("card_array", [])  # Default to empty array if not present
+    card_array.append(card_id_one)
+
+    user_ref_two.update({"card_array": card_array})
+
+    # Step 3 - Update card_id_one to hold user_id_two
+    card_ref = db.collection('cards').document(card_id_one)
+    card_doc = card_ref.get()
+
+    if not card_doc.exists:
+        return jsonify({"error": "Card document not found"}), 404
+
+    # Update the user_id in the card document to user_id_two
+    card_ref.update({"user_id": user_id_two})
+
+    # Step 4 - Update card_id_two to hold user_id_one
+    card_ref_two = db.collection('cards').document(card_id_two)
+    card_doc_two = card_ref_two.get()
+
+    if not card_doc_two.exists:
+        return jsonify({"error": "Card document not found"}), 404
+
+    # Update the user_id in the card document to user_id_two
+    card_ref_two.update({"user_id": user_id_one})
+
+    # Step 5  - Update active status to false 
+    trade_ref.update({"set_active": False})
+
+    # Step 6 - Set user_id_one's card too false for the owned status 
+    user_data_one = user_doc_one.to_dict()
+    card_array = user_data_one.get("card_array", [])
+
+    # Iterate through card_array to find and update the matching card
+    for card in card_array:
+        if card.get("card_id") == card_id_one:
+            card["is_owned"] = False
+            break
+
+    # Update the user document with the modified card_array
+    user_ref_one.update({"card_array": card_array})
+
+    # Step 7 - Set user_id_two's card too false for the owned status 
+    user_data_two = user_doc_two.to_dict()
+    card_array = user_data_two.get("card_array", [])
+
+    # Iterate through card_array to find and update the matching card
+    for card in card_array:
+        if card.get("card_id") == card_id_two:
+            card["is_owned"] = False
+            break
+
+    # Update the user document with the modified card_array
+    user_ref_two.update({"card_array": card_array})
+
+    return "Success"
