@@ -13,6 +13,3 @@ cred = credentials.Certificate(api_key)
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
-
-def get_db():
-    return db; 

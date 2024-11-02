@@ -1,20 +1,21 @@
 from flask import Flask, Blueprint, request, jsonify
-from firebase import get_db
+from firebase import db
 
 user_routes = Blueprint('user_routes', __name__)
-db = get_db() 
 
-@user_routes.route('/')
-def home():
-    # Retrieve all documents in the 'users' collection
-    users_ref = db.collection('users')
-    docs = users_ref.stream()
+@user_routes.route('/create_user', methods=['POST'])
+def create_user():
+    data = request.get_json()  # Retrieve JSON data from the request
+    user_email = data.get("email")
 
-    # Store documents in a list
-    users = []
-    for doc in docs:
-        user_data = doc.to_dict()
-        user_data['id'] = doc.id  # Add document ID to data
-        users.append(user_data)
+    if not user_email:
+        return jsonify({"error": "Email is required"}), 400
 
-    return jsonify(users)  # Return data as JSON response
+    # Create a new document in 'users' collection
+    doc_ref = db.collection('users').document()  # Automatically generates a new document ID
+    doc_ref.set({
+        "user_email": user_email,
+        "card_array": []  # Set card_array as an empty array
+    })
+
+    return jsonify({"message": "User created successfully", "user_id": doc_ref.id}), 201
