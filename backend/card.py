@@ -78,7 +78,9 @@ def get_card():
 @card_routes.route('/view_gallery', methods=['GET'])
 def view_gallery():
     # retrieve user document
+    
     user_id = request.args["user_id"]
+    print("this is happening. searching user id of: "+user_id)
     user_ref = db.collection("users").document(user_id)
     user_doc = user_ref.get()
 
@@ -88,11 +90,13 @@ def view_gallery():
     # loop through user's cards and retrieve each card's details
     for card in user_data["card_array"]:
         card_id = card["card_id"]
+        print("fount a card: "+card_id)
         card_doc = db.collection("cards").document(card_id).get()
         
         # append the card information in the array
         card_data = card_doc.to_dict()
         card_data["is_owned"] = card["is_owned"]
+        card_data["card_id"] = card_id
         user_cards.append(card_data)
 
     return jsonify({"message": "Retrieved list of user cards", "cards": user_cards}), 200
