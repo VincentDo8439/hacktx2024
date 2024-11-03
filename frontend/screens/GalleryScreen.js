@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
-    backgroundColor: 'white',
     borderRadius: 8,
   },
 });
