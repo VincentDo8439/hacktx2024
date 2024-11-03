@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: "#fff",
     // Shadow properties for iOS
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 5 },
-    // shadowOpacity: 0.1,
-    // shadowRadius: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
     // Elevation for Android
     elevation: 10,
   },
