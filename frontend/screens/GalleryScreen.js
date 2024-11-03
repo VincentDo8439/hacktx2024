@@ -142,10 +142,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     paddingBottom: 10,
-    shadowColor: 'black',
-    shadowOffset: { width: -4, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -164,9 +160,5 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     borderRadius: 8,
-    shadowColor: 'black',
-    shadowOffset: { width: -7, height: 7 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
   },
 });
