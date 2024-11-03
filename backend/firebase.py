@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
 import firebase_admin
-from firebase_admin import credentials, firestore, auth
+from firebase_admin import credentials, firestore, auth, storage
 import os
 from dotenv import load_dotenv
 from functools import wraps
+import requests
+import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -11,7 +13,9 @@ load_dotenv()
 # Access the API key and define the database
 api_key = os.getenv("firebase_key")
 cred = credentials.Certificate(api_key)
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {'storageBucket': 'hacktx-9757b.appspot.com'})
+
+bucket = storage.bucket()
 db = firestore.client()
 
 # Middleware function
@@ -40,3 +44,20 @@ def firebase_auth_required(f):
 
     return decorated_function
 
+# Adding an image to the storage bucket
+def add_to_bucket(image_url, directory):
+
+    # Fetch the image from the provided URL
+    response = requests.get(image_url)
+
+    # Get the blob data
+    blob = response.content
+    name = f"{directory}/{datetime.now().isoformat()}"
+
+    # Get a reference to the storage bucket
+    blob = bucket.blob(name)
+    blob.upload_from_string(blob, content_type='image/jpeg')
+
+    # Generate the download URL
+    download_url = blob.public_url
+    return download_url

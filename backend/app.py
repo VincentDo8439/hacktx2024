@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from user import user_routes
 from card import card_routes
 from trade import trade_routes
 
 app = Flask(__name__)
+CORS(app)
 
 app.register_blueprint(user_routes, url_prefix='/user')
 app.register_blueprint(card_routes, url_prefix='/card')
