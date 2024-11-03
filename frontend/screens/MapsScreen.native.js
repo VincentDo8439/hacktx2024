@@ -34,7 +34,7 @@ const MapsScreen = () => {
         setLocation(currentLocation.coords);
 
         // Fetch card data from backend API
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/card/view_all_cards`);
+        const response = await axios.get(`http://192.168.96.239:8000/card/view_all_cards`);
         const cardsData = response.data;
 
         // Process each card to include the city name using reverse geocoding
