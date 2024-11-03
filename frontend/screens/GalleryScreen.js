@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,13 +6,14 @@ import {
   Modal,
   Pressable,
   Text,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import * as SplashScreen from "expo-splash-screen";
-import CompactCard from "./GalleryComponents/CompactCard";
-import FullCard from "./GalleryComponents/FullCard";
-import axios from "axios";
-import * as Animatable from "react-native-animatable";
+  ActivityIndicator,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as SplashScreen from 'expo-splash-screen';
+import CompactCard from './GalleryComponents/CompactCard';
+import FullCard from './GalleryComponents/FullCard';
+import axios from 'axios';
+import * as Animatable from 'react-native-animatable';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,15 +22,16 @@ export default function GalleryScreen() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalAnimation, setModalAnimation] = useState('bounceIn');
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
         // Replace with your actual API endpoint
         const response = await axios.get(
-          "http://172.20.10.9:8000/card/view_gallery",
+          'http://192.168.96.239:8000/card/view_gallery',
           {
-            params: { user_id: "CiC5IAVavu9mYE0CqhCg" }, // Replace with the actual user_id if needed
+            params: { user_id: '0qiUVhOnSuSlD2HeRaec' }, // Replace with the actual user_id if needed
           }
         );
 
@@ -43,13 +45,13 @@ export default function GalleryScreen() {
           facts: card.facts,
           hexCode: card.hex_code,
           original_image_url: card.image_url,
-          cityState: card.city || "Unknown Location", // 'city' should come from reverse geocoding if necessary
+          cityState: card.city || 'Unknown Location', // 'city' should come from reverse geocoding if necessary
           date: new Date(card.timestamp).toLocaleString(), // Format the date as desired
         }));
         setCardsData(fetchedCards);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       }
     };
@@ -62,30 +64,43 @@ export default function GalleryScreen() {
     setModalVisible(true);
   };
 
+  const handleCloseModal = () => {
+    setModalAnimation('bounceOut');
+    setTimeout(() => {
+      setModalVisible(false);
+      setModalAnimation('bounceIn'); // Reset animation for next time
+    }, 500); // Duration should match the animation duration
+  };
+
   const renderItem = ({ item }) => (
     <Pressable
       onPress={() => handleCardPress(item)}
       style={styles.cardContainer}
     >
-      <CompactCard
-        image={item.image}
-        rarity={item.rarity}
-        title={item.title}
-        subtitle={item.subtitle}
-      />
+      <Animatable.View animation="zoomIn" duration={500}>
+        <CompactCard
+          image={item.image}
+          rarity={item.rarity}
+          title={item.title}
+          subtitle={item.subtitle}
+          hexCode={item.hexCode}
+        />
+      </Animatable.View>
     </Pressable>
   );
 
   if (loading) {
     return (
       <View style={styles.centered}>
-        <Text>Loading data...</Text>
+        <Animatable.View animation="bounceIn" iterationCount={1}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Animatable.View>
       </View>
     );
   }
-  
+
   return (
-    <View style={styles.background}>
+    <Animatable.View animation="fadeIn" duration={500} style={styles.background}>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={cardsData}
@@ -95,18 +110,16 @@ export default function GalleryScreen() {
           columnWrapperStyle={styles.columnWrapper}
         />
         <Modal
-          animationType="fade"
+          animationType="none"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          onRequestClose={handleCloseModal}
         >
-          <Pressable
-            onPress={() => setModalVisible(false)}
-            style={styles.modalOverlay}
-          >
+          <Pressable onPress={handleCloseModal} style={styles.modalOverlay}>
             <Animatable.View
-              animation="bounceIn"
+              animation={modalAnimation}
               iterationCount={1}
+              duration={500}
               style={styles.modalContent}
             >
               {selectedItem && (
@@ -125,30 +138,26 @@ export default function GalleryScreen() {
         </Modal>
         <View style={styles.block}></View>
       </SafeAreaView>
-    </View>
+    </Animatable.View>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
-    marginTop: "-10%",
+    marginTop: '-10%',
   },
   block: {
-    height: "8%",
+    height: '8%',
   },
   container: {
     flex: 1,
     padding: 5,
     paddingBottom: 10,
-    shadowColor: 'black',
-    shadowOffset: { width: -4, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
   },
   columnWrapper: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   cardContainer: {
     flex: 1,
@@ -156,17 +165,17 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    width: "90%",
-    backgroundColor: "white",
+    width: '90%',
     borderRadius: 8,
-    shadowColor: 'black',
-    shadowOffset: { width: -7, height: 7 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
