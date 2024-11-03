@@ -29,7 +29,7 @@ const CompactCard = ({ image, title, subtitle }) => {
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.image} />
+      <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
       <Text style={[styles.title, { fontFamily: 'SourceCodePro-Medium' }]}>{title}</Text>
       <Text style={[styles.subtitle, { fontFamily: 'SourceCodePro-Italic' }]}>{subtitle}</Text>
     </View>
@@ -39,7 +39,7 @@ const CompactCard = ({ image, title, subtitle }) => {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    margin: 10,
+    margin: 5,
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 100,
+    height: 165,
   },
   title: {
     fontWeight: 'bold',

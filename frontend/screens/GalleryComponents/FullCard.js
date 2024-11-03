@@ -29,7 +29,7 @@ const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.image} />
+      <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
       <View style={styles.factsContainer}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 270,
   },
   title: {
     fontFamily: 'SourceCodePro-Medium',
