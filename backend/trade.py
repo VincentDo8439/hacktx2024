@@ -70,7 +70,7 @@ def get_user_trades():
             trade_data['id'] = doc.id  # Add document ID to data for reference
             user_trades.append(trade_data)
 
-    return jsonify(user_trades)  # Return matched trades as JSON array
+    return jsonify({"trades": user_trades}), 200  # Return matched trades as JSON array
 
 # Not Tested
 @trade_routes.route('/accept_trade', methods=['POST'])
