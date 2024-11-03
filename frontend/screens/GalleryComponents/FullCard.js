@@ -16,6 +16,29 @@ const fetchFonts = () => {
     });
   };
 
+// gradient colors
+const getRandomGradient = () => {
+    const colors = ['#B7CCB9', '#B0BFB8', '#CBD487', '#A5B082', '#F1A3B4'];
+    const primaryColor = '#D5CE3B';
+    const secondaryColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Randomize the gradient direction
+    const directions = [
+        [0, 0, 1, 1], // top-left to bottom-right
+        [0, 1, 1, 1], // top to bottom
+        [1, 0, 1, 1], // left to right
+        [0, 0, 0, 1], // top-left to bottom-left
+        [1, 0, 0, 0], // bottom-right to top-right
+        [0, 0, 1, 0], // top-left to top-right
+        [0, 1, 0, 0], // bottom to top
+        [1, 1, 0, 1], // bottom-right to top-left
+    ];
+    
+    const direction = directions[Math.floor(Math.random() * directions.length)];
+
+    return { colors: [primaryColor, secondaryColor], direction };
+};
+
 const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) => {
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -31,13 +54,7 @@ const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) =>
       return <AppLoading />;
     }
 
-    // temp: replace once we have hex code colors
-    const gradientColors = () => {
-        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F0E68C', '#FF33F6'];
-        const primaryColor = colors[Math.floor(Math.random() * colors.length)];
-        const secondaryColor = colors[Math.floor(Math.random() * colors.length)];
-        return [primaryColor, secondaryColor];
-    };
+    const { colors: gradientColors, direction } = getRandomGradient();
 
     const renderGem = (rarity) => {
         const rarityStr = String(rarity);
@@ -64,7 +81,7 @@ const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) =>
 
 
   return (
-    <LinearGradient colors={gradientColors()} style={styles.card}>
+    <LinearGradient colors={gradientColors} start={{ x: direction[0], y: direction[1] }} end={{ x: direction[2], y: direction[3] }} style={styles.card}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
       </View>
