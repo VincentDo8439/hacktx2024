@@ -110,7 +110,7 @@ export default function CameraScreen() {
 
       // Call the backend API
       // CALL WHEN THE BACKEND IS HOSTED
-      const response2 = await fetch('http://192.168.96.239:8000/card/create_card', {
+      const response2 = await fetch('http://10.147.21.188:8000/card/create_card', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   captureButton: {
     width: 150,
     padding: 15,
-    backgroundColor: '#1e90ff',
+    backgroundColor: '#dcbea7',
     borderRadius: 5,
     alignItems: 'center',
   },

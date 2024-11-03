@@ -74,16 +74,44 @@ const DATA = [
   },
 ];
 
+
 export default function GalleryScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [cards, setCards] = useState([]);
+  const userId = '0qiUVhOnSuSlD2HeRaec'; //TODO: replace once backend done
 
   useEffect(() => {
     const loadResources = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       SplashScreen.hideAsync();
     };
+
+    const fetchCards = async () => {
+      try {
+        const response = await fetch(`https://localhost4000/card/create_card/view_gallery?user_id=${userId}`);
+        const data = await response.json();
+        if (data.cards) {
+          // Map the response to match your frontend structure
+          const mappedCards = data.cards.map(card => ({
+            id: card.card_id,
+            rarity: card.rarity,
+            image: card.card_image_url,
+            title: card.species_name,
+            subtitle: card.scientific_name,
+            facts: card.facts,
+            cityState: 'Austin, TX', // Static value
+            date: '3:50 CT, 11/02/2024', // Static value
+            // hexCode: card.hex_code // New field from backend
+          }));
+          setCards(mappedCards);
+        }
+      } catch (error) {
+        console.error("Error fetching cards:", error);
+      }
+    };
     
+    fetchCards();
     loadResources();
   }, []);
 
@@ -101,7 +129,7 @@ export default function GalleryScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
+        data={DATA} //TODO: replace with cards if connected with backend
         renderItem={renderItem}
         keyExtractor={item => item.id}
         numColumns={2}
@@ -124,6 +152,7 @@ export default function GalleryScreen() {
                 facts={selectedItem.facts}
                 cityState={selectedItem.cityState}
                 date={selectedItem.date}
+                // hexCode={card.hexCode}
               />
             )}
           </Pressable>

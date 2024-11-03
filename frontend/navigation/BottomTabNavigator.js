@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const AnimatedIcon = ({ name, focused }) => (
   <Animated.View entering={BounceIn}>
-    <Ionicons name={name} size={24} color={focused ? "#6200ee" : "#222"} />
+    <Ionicons name={name} size={24} color={focused ? "#a5b082" : "#222"} />
   </Animated.View>
 );
 
@@ -24,7 +24,7 @@ const AnimatedMaterialIcon = ({ name, focused }) => (
     <MaterialCommunityIcons
       name={name}
       size={24}
-      color={focused ? "#6200ee" : "#222"}
+      color={focused ? "#a5b082" : "#222"}
     />
   </Animated.View>
 );
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     top: -30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6200ee",
+    backgroundColor: "#a5b082",
     width: 70,
     height: 70,
     borderRadius: 35,

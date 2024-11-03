@@ -8,6 +8,7 @@ import {
   Animated,
   PanResponder,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 
@@ -17,6 +18,29 @@ const fetchFonts = () => {
     "SourceCodePro-Medium": require("../.././assets/fonts/SourceCodePro-Medium.ttf"),
     "SourceCodePro-Italic": require("../.././assets/fonts/SourceCodePro-Italic.ttf"),
   });
+};
+
+// gradient colors
+const getRandomGradient = () => {
+    const colors = ['#B7CCB9', '#B0BFB8', '#CBD487', '#A5B082', '#F1A3B4'];
+    const primaryColor = '#D5CE3B';
+    const secondaryColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Randomize the gradient direction
+    const directions = [
+        [0, 0, 1, 1], // top-left to bottom-right
+        [0, 1, 1, 1], // top to bottom
+        [1, 0, 1, 1], // left to right
+        [0, 0, 0, 1], // top-left to bottom-left
+        [1, 0, 0, 0], // bottom-right to top-right
+        [0, 0, 1, 0], // top-left to top-right
+        [0, 1, 0, 0], // bottom to top
+        [1, 1, 0, 1], // bottom-right to top-left
+    ];
+    
+    const direction = directions[Math.floor(Math.random() * directions.length)];
+
+    return { colors: [primaryColor, secondaryColor], direction };
 };
 
 const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
@@ -96,6 +120,31 @@ const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
       },
     ],
   };
+    const { colors: gradientColors, direction } = getRandomGradient();
+
+    const renderGem = (rarity) => {
+        const rarityStr = String(rarity);
+
+        switch (rarityStr) {
+            case "1":
+              gemSource = Gem1;
+              break;
+            case "2":
+              gemSource = Gem2;
+              break;
+            case "3":
+              gemSource = Gem3;
+              break;
+            case "4":
+              gemSource = Gem4;
+              break;
+            default:
+              return null;
+        }
+  
+          return <Image source={gemSource} style={styles.gem} />;
+    };    
+
 
   return (
     <Animated.View
@@ -104,6 +153,13 @@ const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
     >
       <View style={styles.background} />
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
+    <LinearGradient colors={gradientColors} start={{ x: direction[0], y: direction[1] }} end={{ x: direction[2], y: direction[3] }} style={styles.card}/>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
+      </View>
+      <View>
+        {renderGem(rarity)}
+      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
       <View style={styles.factsContainer}>
