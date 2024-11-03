@@ -27,9 +27,9 @@ export default function GalleryScreen() {
       try {
         // Replace with your actual API endpoint
         const response = await axios.get(
-          "http://172.20.10.9:8000/card/view_gallery",
+          "http://192.168.96.239:8000/card/view_gallery",
           {
-            params: { user_id: "CiC5IAVavu9mYE0CqhCg" }, // Replace with the actual user_id if needed
+            params: { user_id: "0qiUVhOnSuSlD2HeRaec" }, // Replace with the actual user_id if needed
           }
         );
 
