@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: -40
   },
   tabBarIndicator: {
-    backgroundColor: "#68b2e3", // Color of the active tab indicator
+    backgroundColor: "#68b2b3", // Color of the active tab indicator
     height: 3,
   }
 });
