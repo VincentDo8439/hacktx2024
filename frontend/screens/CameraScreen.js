@@ -73,29 +73,53 @@ export default function CameraScreen() {
     setIsPreview(false);
   };
 
+  const getCityName = async (latitude, longitude) => {
+    try {
+      console.log(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=35dd821656764679a35245b5fabfa493`)
+
+      const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=35dd821656764679a35245b5fabfa493`);
+      const data = await response.json();
+      console.log(data)
+      if (data && data.results && data.results.length > 0) {
+        const components = data.results[0].components;
+        return components.city || components.town || components.village || 'Unknown';
+      } else {
+        throw new Error('No results found');
+      }
+    } catch (error) {
+      console.error('Error fetching city name:', error);
+      return 'Unknown';
+    }
+  };
+  
+
   const submitPicture = async () => {
     setIsLoading(true); // Start loading indicator
-
+  
     try {
       // Generate a unique file name
       const imageId = uuid.v4();
       const response = await fetch(photoUri);
       const blob = await response.blob();
-
+  
       // Create a reference to the storage bucket location
       const storageRef = ref(storage, `original_images/${imageId}.jpg`);
-
+  
       // Upload the image
       await uploadBytes(storageRef, blob);
-
+  
       // Get the download URL
       const downloadURL = await getDownloadURL(storageRef);
-
+  
+      // Reverse geocode to get city name
+      const cityName = await getCityName(locationData.latitude, locationData.longitude);
+  
       // Prepare data for API call
       const card_data = {
         image_url: downloadURL,
         latitude: locationData.latitude,
         longitude: locationData.longitude,
+        city: cityName, // Include city name
         timestamp: timestamp, // Include timestamp
       };
 
@@ -105,9 +129,9 @@ export default function CameraScreen() {
         card_data,
         user_data,
       };
-
+  
       console.log('Submitting data to backend:', data);
-
+  
       // Call the backend API
       // CALL WHEN THE BACKEND IS HOSTED
       const response2 = await fetch(`http://172.20.10.9:8000/card/create_card`, {
@@ -115,11 +139,11 @@ export default function CameraScreen() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-
+  
       const result = await response2.json();
-
+  
       console.log('Backend response:', result);
-
+  
       // Handle successful submission
       // Reset state after submission
       setPhotoUri(null);
@@ -131,6 +155,7 @@ export default function CameraScreen() {
       setIsLoading(false); // Stop loading indicator
     }
   };
+
 
   return (
     <SafeAreaView style={styles.safeArea}>
