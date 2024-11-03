@@ -35,7 +35,6 @@ def create_card():
 
     # find description of the original image
     orig_download_url = card_data["image_url"]
-    print(orig_download_url)
     response = describe_image(orig_download_url)
 
     card_data["species_name"] = response["species_name"]
@@ -46,13 +45,9 @@ def create_card():
     
     description = response["description"]
 
-    print(description)
-
     # create a new styled image for the card and add to bucket
     generated_image_url = generate_image(description)
-    print(generated_image_url)
     card_download_url = add_to_bucket(generated_image_url, "card_images")
-    print(card_download_url)
     card_data["card_image_url"] = card_download_url
 
     # keep track of the main color of the image
