@@ -8,6 +8,7 @@ import {
   Animated,
   PanResponder,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 
