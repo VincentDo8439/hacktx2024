@@ -5,6 +5,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import CompactCard from './GalleryComponents/CompactCard';
 import FullCard from './GalleryComponents/FullCard';
 
+SplashScreen.preventAutoHideAsync();
+
 const DATA = [
   {
     id: '1',
@@ -81,7 +83,7 @@ export default function GalleryScreen() {
   useEffect(() => {
     const loadResources = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      SplashScreen.hideAsync();
+      await SplashScreen.hideAsync();
     };
     
     loadResources();
