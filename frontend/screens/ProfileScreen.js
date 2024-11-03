@@ -38,8 +38,8 @@ export default function ProfileScreen() {
   return (
     <View style={styles.background}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>dapig</Text>
-        <Text style={styles.subtitle}>dapigontop@gmail.com</Text>
+        <Text style={styles.title}>TPEO Tech Support</Text>
+        <Text style={styles.subtitle}>tpeoteam@gmail.com</Text>
       </SafeAreaView>
     </View>
   );
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 20,
     paddingBottom: 5,
+    textAlign: 'center'
   },
   subtitle: {
     fontFamily: "SourceCodePro-Light",

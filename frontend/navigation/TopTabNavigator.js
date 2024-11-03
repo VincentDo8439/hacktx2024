@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { TouchableOpacity, StyleSheet, Platform } from "react-native";
 import CurrentTrades from "../screens/TradingComponents/CurrentTrades";
-import InitiateTrade from "../screens/TradingComponents/InitiateTrade";
+import TradeNavigator from "./TradeNavigator";
 import Animated, { BounceIn } from "react-native-reanimated";
 
 const Tab = createMaterialTopTabNavigator();
@@ -33,8 +33,8 @@ export default function TopTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Inititate"
-        component={InitiateTrade}
+        name="TradeNav"
+        component={TradeNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <AnimatedIcon name="add" focused={focused} />

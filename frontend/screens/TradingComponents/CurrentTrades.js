@@ -69,6 +69,35 @@ export default function CurrentTrades() {
     }
   }
 
+  const declineTrade = async (tradeId) => {
+    const url = 'http://172.20.10.9:8000/trade/update_trade_status'; // Replace with your actual backend URL
+    const data = {
+      id: tradeId, // Include any other necessary data here
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error || 'Something went wrong');
+      }
+  
+      const result = await response.json(); // If the response is in JSON format
+      return result; // Handle the success response as needed
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle the error appropriately, maybe set an error state
+      return null; // or throw error to be handled by caller
+    }
+  }
+
   if (!trades && !error) {
     return (
       <View style={styles.container}>
@@ -110,6 +139,11 @@ export default function CurrentTrades() {
               {item.user_id_one === "CiC5IAVavu9mYE0CqhCg" && (
                 <TouchableOpacity onPress={() => acceptTrade(item.id)}>
                     <Text>Accept trade</Text>
+                </TouchableOpacity>
+              )}
+              {item.user_id_one === "CiC5IAVavu9mYE0CqhCg" && (
+                <TouchableOpacity onPress={() => declineTrade(item.id)}>
+                    <Text>Decline trade</Text>
                 </TouchableOpacity>
               )}
             </View>

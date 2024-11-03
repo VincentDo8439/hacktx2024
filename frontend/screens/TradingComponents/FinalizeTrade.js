@@ -6,28 +6,56 @@ import {
   Modal,
   Pressable,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
-import CompactCard from "./GalleryComponents/CompactCard";
-import FullCard from "./GalleryComponents/FullCard";
+import CompactCard from "../GalleryComponents/CompactCard";
+import FullCard from "../GalleryComponents/FullCard";
 import axios from "axios";
 import * as Animatable from "react-native-animatable";
+import * as Font from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function GalleryScreen() {
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "SourceCodePro-Regular": require("../.././assets/fonts/SourceCodePro-Regular.ttf"),
+    "SourceCodePro-Medium": require("../.././assets/fonts/SourceCodePro-Medium.ttf"),
+    "SourceCodePro-Italic": require("../.././assets/fonts/SourceCodePro-Italic.ttf"),
+  });
+};
+
+export default function FinalizeTrade({ navigation, route }) {
+  const { card_id, user_id } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadResources = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync(); // Prevent the splash screen from auto-hiding
+        await fetchFonts(); // Load fonts
+        setFontLoaded(true);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        await SplashScreen.hideAsync(); // Hide the splash screen once fonts are loaded
+      }
+    };
+
+    loadResources();
+  }, []);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
         // Replace with your actual API endpoint
         const response = await axios.get(
-          "http://172.20.10.9:8000/card/view_gallery",
+          "http://172.20.10.9:8000/card/view_user_tradable_cards",
           {
             params: { user_id: "CiC5IAVavu9mYE0CqhCg" }, // Replace with the actual user_id if needed
           }
@@ -62,6 +90,40 @@ export default function GalleryScreen() {
     setModalVisible(true);
   };
 
+  const completeTrade = async (user_card_id) => {
+    console.log(user_card_id)
+    const url = "http://172.20.10.9:8000/trade/create_trade"; // Replace with your actual backend URL
+    const data = {
+      card_id_one: user_card_id, // Include any other necessary data here
+      card_id_two: card_id,
+      user_id_one: "CiC5IAVavu9mYE0CqhCg",
+      user_id_two: user_id,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error || "Something went wrong");
+      }
+
+      const result = await response.json(); // If the response is in JSON format
+      setModalVisible(false);
+      navigation.navigate("Initiate");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle the error appropriately, maybe set an error state
+      return null; // or throw error to be handled by caller
+    }
+  };
+
   const renderItem = ({ item }) => (
     <Pressable
       onPress={() => handleCardPress(item)}
@@ -83,10 +145,11 @@ export default function GalleryScreen() {
       </View>
     );
   }
-  
+
   return (
     <View style={styles.background}>
       <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Give away one of your cards!</Text>
         <FlatList
           data={cardsData}
           renderItem={renderItem}
@@ -120,6 +183,14 @@ export default function GalleryScreen() {
                   date={selectedItem.date}
                 />
               )}
+              {selectedItem && (
+                <TouchableOpacity
+                  onPress={() => completeTrade(selectedItem.id)}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonFont}>Complete trade!</Text>
+                </TouchableOpacity>
+              )}
             </Animatable.View>
           </Pressable>
         </Modal>
@@ -142,6 +213,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     paddingBottom: 10,
+    marginTop: 10,
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -160,5 +232,22 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     borderRadius: 8,
+  },
+  button: {
+    margin: "2%",
+    backgroundColor: "#dcbea7",
+    borderRadius: 8,
+    paddingVertical: 5,
+  },
+  buttonFont: {
+    fontFamily: "SourceCodePro-Medium",
+    fontSize: 24,
+    textAlign: "center",
+  },
+  title: {
+    fontFamily: "SourceCodePro-Medium",
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 12,
   },
 });
