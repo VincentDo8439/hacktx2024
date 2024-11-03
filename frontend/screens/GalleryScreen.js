@@ -8,67 +8,67 @@ import FullCard from './GalleryComponents/FullCard';
 const DATA = [
   {
     id: '1',
+    rarity: "1",
     image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-02T22%3A57%3A13.807171.jpg?alt=media&token=88d31e21-00a0-48d2-bdd6-8b56e9c5a26e',
     title: 'Racoon',
     subtitle: 'Northern Racoon',
     facts: ['Raccoons have incredibly nimble front paws, allowing them to manipulate objects, open containers, and even turn doorknobs!', 
-      'Their distinctive black "mask" markings around their eyes help reduce glare and enhance their night vision, making them excellent nocturnal foragers.',
-      'Raccoons are opportunistic eaters and have a diverse diet that includes fruits, nuts, insects, small animals, and even human food scraps. They’re known for raiding trash cans!'],
+      'Their distinctive black "mask" markings around their eyes help reduce glare and enhance their night vision, making them excellent nocturnal foragers.'],
     cityState: 'Austin, TX',
     date: '3:50 CT, 11/02/2024',
   },
   {
     id: '2',
-    image: 'https://via.placeholder.com/150',
+    rarity: "2",
+    image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-02T22%3A54%3A29.545547.jpg?alt=media&token=5a78b8b9-069d-40d1-acda-437368bfa89d',
     title: 'Item 2',
     subtitle: 'Subtitle 2',
     facts: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio quis leo ultrices vulputate vel at ligula.', 
-      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.',
-      'Etiam at laoreet eros. Quisque sit amet fermentum tellus, vel fringilla sapien. Nam sodales accumsan est id euismod. '],
+      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.'],
     cityState: 'City, State',
     date: 'X:XX CT, MM/DD/YYYY',
   },
   {
     id: '3',
-    image: 'https://via.placeholder.com/150',
+    rarity: "3",
+    image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-02T23%3A43%3A40.579785.jpg?alt=media&token=f0c4a704-6611-41d3-9954-a3f8e80289d8',
     title: 'Item 3',
     subtitle: 'Subtitle 3',
     facts: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio quis leo ultrices vulputate vel at ligula.', 
-      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.',
-      'Etiam at laoreet eros. Quisque sit amet fermentum tellus, vel fringilla sapien. Nam sodales accumsan est id euismod. '],
+      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.'],
     cityState: 'City, State',
     date: 'X:XX CT, MM/DD/YYYY',
   },
   {
     id: '4',
-    image: 'https://via.placeholder.com/150',
+    rarity: "4",
+    image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-02T23%3A57%3A44.804083.jpg?alt=media&token=0a1154dd-668d-4e10-8c71-e9ef14913f8e',
     title: 'Item 4',
     subtitle: 'Subtitle 4',
     facts: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio quis leo ultrices vulputate vel at ligula.', 
-      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.',
-      'Etiam at laoreet eros. Quisque sit amet fermentum tellus, vel fringilla sapien. Nam sodales accumsan est id euismod. '],
+      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.'],
     cityState: 'City, State',
     date: 'X:XX CT, MM/DD/YYYY',
   },
   {
     id: '5',
-    image: 'https://via.placeholder.com/150',
+    rarity: "1",
+    image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-03T00%3A02%3A46.009874.jpg?alt=media&token=ccaaa443-7a96-4e61-b44a-e8690f39a299',
     title: 'Item 5',
     subtitle: 'Subtitle 5',
     facts: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio quis leo ultrices vulputate vel at ligula.', 
-      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.',
-      'Etiam at laoreet eros. Quisque sit amet fermentum tellus, vel fringilla sapien. Nam sodales accumsan est id euismod. '],
+      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.'],
     cityState: 'City, State',
     date: 'X:XX CT, MM/DD/YYYY',
   },
   {
     id: '6',
-    image: 'https://via.placeholder.com/150',
+    rarity: "2",
+    image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-03T01%3A45%3A27.285641.jpg?alt=media&token=b2118018-aeb0-4131-8984-84091de3d3f4',
     title: 'Item 6',
     subtitle: 'Subtitle 6',
     facts: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio quis leo ultrices vulputate vel at ligula.', 
-      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.',
-      'Etiam at laoreet eros. Quisque sit amet fermentum tellus, vel fringilla sapien. Nam sodales accumsan est id euismod. '],
+      'Phasellus feugiat ut quam non molestie. Fusce tellus est, finibus at interdum eget, vehicula non lorem.'],
     cityState: 'City, State',
     date: 'X:XX CT, MM/DD/YYYY',
   },
@@ -94,7 +94,7 @@ export default function GalleryScreen() {
 
   const renderItem = ({ item }) => (
     <Pressable onPress={() => handleCardPress(item)} style={styles.cardContainer}>
-      <CompactCard image={item.image} title={item.title} subtitle={item.subtitle} />
+      <CompactCard image={item.image} rarity={item.rarity} title={item.title} subtitle={item.subtitle} />
     </Pressable>
   );
 
@@ -118,6 +118,7 @@ export default function GalleryScreen() {
             {selectedItem && (
               <FullCard
                 image={selectedItem.image}
+                rarity={selectedItem.rarity}
                 title={selectedItem.title}
                 subtitle={selectedItem.subtitle}
                 facts={selectedItem.facts}

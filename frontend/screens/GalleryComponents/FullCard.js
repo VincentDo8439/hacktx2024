@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import Gem1 from './gem1.png';
+import Gem2 from './gem2.png';
+import Gem3 from './gem3.png';
+import Gem4 from './gem4.png';
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -11,7 +15,7 @@ const fetchFonts = () => {
     });
   };
 
-const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
+const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) => {
     const [fontLoaded, setFontLoaded] = useState(false);
 
     useEffect(() => {
@@ -26,10 +30,38 @@ const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
       return <AppLoading />;
     }
 
+    const renderGem = (rarity) => {
+        const rarityStr = String(rarity);
+
+        switch (rarityStr) {
+            case "1":
+              gemSource = Gem1;
+              break;
+            case "2":
+              gemSource = Gem2;
+              break;
+            case "3":
+              gemSource = Gem3;
+              break;
+            case "4":
+              gemSource = Gem4;
+              break;
+            default:
+              return null;
+        }
+  
+          return <Image source={gemSource} style={styles.gem} />;
+    };    
+
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
+      </View>
+      <View>
+        {renderGem(rarity)}
+      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
       <View style={styles.factsContainer}>
@@ -62,6 +94,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  imageContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 270,
   },
   image: {
     width: '100%',
@@ -143,6 +180,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
     fontWeight: 'bold',
+  },
+  gem: {
+    position: 'absolute',
+    right: 30,
+    top: -30, 
+    width: 70, 
+    height: 70,
+    zIndex: 1,
   },
 });
 

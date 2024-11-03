@@ -4,6 +4,24 @@ from openai_api import describe_image, generate_image, describe_hex
 
 card_routes = Blueprint('card_routes', __name__)
 
+def lighten_hexcode(hex_color):
+    factor = 0.45
+    hex_color = hex_color.lstrip('#')
+    
+    # Convert hex color to RGB components
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+    
+    # Increase brightness by multiplying each component by (1 + factor)
+    # Ensure it doesn't exceed 255 (maximum RGB value)
+    r = min(int(r + (255 - r) * factor), 255)
+    g = min(int(g + (255 - g) * factor), 255)
+    b = min(int(b + (255 - b) * factor), 255)
+    
+    # Convert back to hex and format as a hex string
+    return f'#{r:02x}{g:02x}{b:02x}'
+
 @card_routes.route('/create_card', methods=['GET', 'POST'])
 # @firebase_auth_required
 def create_card():
@@ -39,7 +57,7 @@ def create_card():
 
     # keep track of the main color of the image
     hex_code = describe_hex(card_download_url)
-    card_data["hex_code"] = hex_code
+    card_data["hex_code"] = lighten_hexcode(hex_code)
 
     # add the card to the list of documents
     card_ref = db.collection("cards").add(card_data) 
