@@ -13,7 +13,7 @@ import * as SplashScreen from "expo-splash-screen";
 import CompactCard from "../GalleryComponents/CompactCard";
 import FullCard from "../GalleryComponents/FullCard";
 import axios from "axios";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import * as Animatable from "react-native-animatable";
 
 SplashScreen.preventAutoHideAsync();
@@ -85,26 +85,26 @@ export default function InitiateTrade({ navigation }) {
   }, []);
 
   const handleCardPress = (item) => {
-    console.log(item)
+    console.log(item);
     setSelectedItem(item);
     setModalVisible(true);
   };
 
   const handleTrade = async (card_id) => {
     try {
-      console.log(card_id)
+      console.log(card_id);
       const response = await fetch(
         `http://172.20.10.9:8000/card/get_card?card_id=${card_id}`
       );
 
-      console.log("GOT HERE")
+      console.log("GOT HERE");
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
 
       setModalVisible(false);
       navigation.navigate("Finalize", {
@@ -141,8 +141,9 @@ export default function InitiateTrade({ navigation }) {
 
   return (
     <View style={styles.background}>
+      <SafeAreaView/>
+      <Text style={styles.title}>Trade for other cards!</Text>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Trade for other cards!</Text>
         <FlatList
           data={cardsData}
           renderItem={renderItem}
@@ -207,6 +208,10 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingBottom: 10,
     marginTop: 10,
+    shadowColor: "black",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -225,6 +230,10 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     borderRadius: 8,
+    shadowColor: "black",
+    shadowOffset: { width: -7, height: 7 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   button: {
     margin: "2%",
@@ -242,5 +251,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     marginTop: 12,
+    marginBottom: '-15%'
   },
 });

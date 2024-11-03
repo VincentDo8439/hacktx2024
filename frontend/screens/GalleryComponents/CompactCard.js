@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     overflow: 'hidden',
+    backgroundColor: "#f7f4eb"
   },
   imageContainer: {
     position: 'relative',
