@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: 60,
     paddingBottom: 30,
-    marginBottom: -25,
+    marginBottom: -15,
     paddingTop: 10,
     backgroundColor: "#fff",
     // Shadow properties for iOS
