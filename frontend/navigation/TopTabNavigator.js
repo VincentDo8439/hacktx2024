@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     elevation: 0, // Remove shadow on Android
     height: 60, // Height of the tab bar
     paddingTop: 10, // Padding at the top
+    paddingBottom: 0,
+    marginBottom: -40
   },
   tabBarIndicator: {
     backgroundColor: "#68b2e3", // Color of the active tab indicator
