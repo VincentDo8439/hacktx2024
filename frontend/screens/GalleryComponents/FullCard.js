@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+const fetchFonts = () => {
+    return Font.loadAsync({
+      'SourceCodePro-Regular': require('../.././assets/fonts/SourceCodePro-Regular.ttf'),
+      'SourceCodePro-Medium': require('../.././assets/fonts/SourceCodePro-Medium.ttf'),
+      'SourceCodePro-Italic': require('../.././assets/fonts/SourceCodePro-Italic.ttf'),
+    });
+  };
 
 const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
+    const [fontLoaded, setFontLoaded] = useState(false);
+
+    useEffect(() => {
+      fetchFonts()
+        .then(() => {
+          setFontLoaded(true);
+        })
+        .catch((error) => console.error(error));
+    }, []);
+  
+    if (!fontLoaded) {
+      return <AppLoading />;
+    }
+
+
   return (
     <View style={styles.card}>
       <Image source={{ uri: image }} style={styles.image} />
@@ -43,59 +68,79 @@ const styles = StyleSheet.create({
     height: 200,
   },
   title: {
-    fontWeight: 'bold',
-    paddingLeft: 20,
+    fontFamily: 'SourceCodePro-Medium',
+    fontSize: 22,
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingTop: 20,
     paddingBottom: 5,
   },
   subtitle: {
-    fontStyle: 'italic',
-    color: 'gray',
-    paddingLeft: 20,
+    fontFamily: 'SourceCodePro-Italic',
+    color: '#020202',
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingBottom: 4,
   },
-factsContainer: {
+  factsContainer: {
     marginTop: 10,
+    marginBottom: -20,
   },
   fact: {
-    paddingLeft: 20,
-    paddingRight: 20,
+    fontFamily: 'SourceCodePro-Regular',
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingBottom: 6,
     fontSize: 14,
     marginVertical: 2,
+    color: '#666666',
   },
   line: {
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
-    marginVertical: 10,
-    marginHorizontal: 10,
+    borderBottomColor: '#C4C4C4',
+    marginVertical: 30,
+    marginHorizontal: 30,
   },
   tagsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 10,
+    justifyContent: 'flex-start',
+    marginTop: -10,
     paddingBottom: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
     marginHorizontal: 10,
   },
   tag: {
     borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 20,
+    borderColor: '#3C3C3C',
+    borderRadius: 100,
     paddingVertical: 5,
     paddingHorizontal: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: 'white',
+    marginRight: 8,
   },
   tagText: {
-    color: 'black',
+    fontFamily: 'SourceCodePro-Regular',
+    fontSize: 12,
+    color: '3C3C3C',
   },
   button: {
-    backgroundColor: 'black',
-    borderRadius: 5,
+    backgroundColor: '#3C3C4C',
+    borderRadius: 20,
     alignItems: 'center',
-    margin: 10,
-    paddingVertical: 10,
+    alignSelf: 'flex-start',
+    marginTop: 5,
+    margin: 26,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    paddingLeft: 14,
+    paddingRight: 14,
   },
   buttonText: {
+    fontFamily: 'SourceCodePro-Regular',
+    fontSize: 12,
     color: 'white',
     fontWeight: 'bold',
   },
