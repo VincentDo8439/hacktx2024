@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableHighlight } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MapsScreen from "../screens/MapsScreen";
 import GalleryScreen from "../screens/GalleryScreen";
@@ -16,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 const AnimatedIcon = ({ name, focused }) => (
   <Animated.View entering={BounceIn}>
-    <Ionicons name={name} size={24} color={focused ? "#6200ee" : "#222"} />
+    <Ionicons name={name} size={24} color={focused ? "#68B2B3" : "#222"} />
   </Animated.View>
 );
 
@@ -25,7 +26,7 @@ const AnimatedMaterialIcon = ({ name, focused }) => (
     <MaterialCommunityIcons
       name={name}
       size={24}
-      color={focused ? "#6200ee" : "#222"}
+      color={focused ? "#68B2B3" : "#222"}
     />
   </Animated.View>
 );
@@ -116,7 +117,7 @@ const CustomCameraButton = ({ onPress }) => {
       <TouchableHighlight
         style={styles.cameraButton}
         onPress={handleCameraPress}
-        underlayColor="#68b2e3"
+        underlayColor="#68B2B3"
       >
         <Ionicons name="camera" size={32} color="#fff" />
       </TouchableHighlight>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     top: -30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6200ee",
+    backgroundColor: "#68B2B3",
     width: 70,
     height: 70,
     borderRadius: 35,
