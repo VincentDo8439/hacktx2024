@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
     height: 60,
-    paddingBottom: 10,
+    paddingBottom: 30,
+    marginBottom: -25,
     paddingTop: 10,
     backgroundColor: "#fff",
     // Shadow properties for iOS
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   cameraButton: {
-    top: -30,
+    top: -35,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#68b2e3",
