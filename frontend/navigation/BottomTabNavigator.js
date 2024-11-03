@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const AnimatedIcon = ({ name, focused }) => (
   <Animated.View entering={BounceIn}>
-    <Ionicons name={name} size={24} color={focused ? "#6200ee" : "#222"} />
+    <Ionicons name={name} size={24} color={focused ? "#68b2e3" : "#222"} />
   </Animated.View>
 );
 
@@ -24,7 +24,7 @@ const AnimatedMaterialIcon = ({ name, focused }) => (
     <MaterialCommunityIcons
       name={name}
       size={24}
-      color={focused ? "#6200ee" : "#222"}
+      color={focused ? "#68b2e3" : "#222"}
     />
   </Animated.View>
 );
@@ -99,7 +99,7 @@ const CustomCameraButton = ({ onPress }) => (
 const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
-    height: Platform.OS === "ios" ? 80 : 60,
+    height: 60,
     paddingBottom: 10,
     paddingTop: 10,
     backgroundColor: "#fff",
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     top: -30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6200ee",
+    backgroundColor: "#68b2e3",
     width: 70,
     height: 70,
     borderRadius: 35,

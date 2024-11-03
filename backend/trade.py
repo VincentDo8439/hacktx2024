@@ -68,9 +68,20 @@ def get_user_trades():
         trade_data = doc.to_dict()
         if trade_data.get("user_id_one") == user_id or trade_data.get("user_id_two") == user_id:
             trade_data['id'] = doc.id  # Add document ID to data for reference
+
+            card_ref = db.collection("cards").document(trade_data['card_id_one'])
+            card_doc = card_ref.get()
+            card_data = card_doc.to_dict()
+            trade_data['card_data_one'] = card_data
+
+            card_ref_two = db.collection("cards").document(trade_data['card_id_two'])
+            card_doc_two = card_ref_two.get()
+            card_data_two = card_doc_two.to_dict()
+            trade_data['card_data_two'] = card_data_two
+
             user_trades.append(trade_data)
 
-    return jsonify(user_trades)  # Return matched trades as JSON array
+    return jsonify({"trades": user_trades}), 200  # Return matched trades as JSON array
 
 # Not Tested
 @trade_routes.route('/accept_trade', methods=['POST'])

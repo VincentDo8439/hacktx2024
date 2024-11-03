@@ -66,6 +66,15 @@ def create_card():
 
     return jsonify({"message": "Card created and added to user's collection.", "card_data": card_data}), 201
 
+@card_routes.route('/get_card', methods=['GET'])
+def get_card():
+    card_id = request.args["card_id"]
+    card_ref = db.collection("cards").document(card_id)
+    card_doc = card_ref.get()
+
+    card_data = card_doc.to_dict()
+    return jsonify({"card_data": card_data}), 200
+
 @card_routes.route('/view_gallery', methods=['GET'])
 def view_gallery():
     # retrieve user document
