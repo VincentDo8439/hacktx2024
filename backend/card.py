@@ -113,6 +113,7 @@ def view_tradable_cards():
     for card_doc in all_cards:
         card_data = card_doc.to_dict()
         if card_data["user_id"] != user_id:
+            card_data["card_id"] = card_doc.id
             tradable_cards.append(card_data)
 
     return jsonify({"message": "Retrieved list of tradable cards", "cards": tradable_cards}), 200
@@ -128,6 +129,7 @@ def view_user_tradable_cards():
     for card_doc in all_cards:
         card_data = card_doc.to_dict()
         if card_data["user_id"] == user_id:
+            card_data["card_id"] = card_doc.id
             tradable_cards.append(card_data)
 
     return jsonify({"message": "Retrieved list of tradable cards", "cards": tradable_cards}), 200

@@ -122,9 +122,9 @@ export default function CameraScreen() {
         city: cityName, // Include city name
         timestamp: timestamp, // Include timestamp
       };
-  
-      const user_data = '0qiUVhOnSuSlD2HeRaec'; // Replace with actual user ID or keep as hardcoded
-  
+
+      const user_data = 'CiC5IAVavu9mYE0CqhCg'; // Replace with actual user ID or keep as hardcoded
+
       const data = {
         card_data,
         user_data,
@@ -133,7 +133,8 @@ export default function CameraScreen() {
       console.log('Submitting data to backend:', data);
   
       // Call the backend API
-      const response2 = await fetch(`http://192.168.96.239:8000/card/create_card`, {
+      // CALL WHEN THE BACKEND IS HOSTED
+      const response2 = await fetch(`http://172.20.10.9:8000/card/create_card`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
