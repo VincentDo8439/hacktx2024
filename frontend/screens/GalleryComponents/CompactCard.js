@@ -2,21 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import Gem1 from './gem1.svg';
-import Gem2 from './gem2.svg';
-import Gem3 from './gem3.svg';
-import Gem4 from './gem4.svg';
-
-console.log('Gem1:', Gem1);
-console.log('Gem2:', Gem2);
-console.log('Gem3:', Gem3);
-console.log('Gem4:', Gem4);
-console.log('Types:', {
-    Gem1: typeof Gem1,
-    Gem2: typeof Gem2,
-    Gem3: typeof Gem3,
-    Gem4: typeof Gem4,
-  });
+import Gem1 from './gem1.png';
+import Gem2 from './gem2.png';
+import Gem3 from './gem3.png';
+import Gem4 from './gem4.png';
 
 
 const fetchFonts = () => {
@@ -28,7 +17,6 @@ const fetchFonts = () => {
   };
 
 const CompactCard = ({ image, rarity, title, subtitle }) => {
-    console.log('Props:', { image, rarity, title, subtitle });
     const [fontLoaded, setFontLoaded] = useState(false);
 
     useEffect(() => {
@@ -44,25 +32,26 @@ const CompactCard = ({ image, rarity, title, subtitle }) => {
     }
 
     const renderGem = (rarity) => {
-
         const rarityStr = String(rarity);
 
         switch (rarityStr) {
-          case "1":
-            console.log('Gem1 type:', typeof Gem1);
-            return <Gem1 style={styles.gem} />;
-          case "2":
-            console.log('Gem2 type:', typeof Gem2);
-            return <Gem2 style={styles.gem} />;
-          case "3":
-            console.log('Gem3 type:', typeof Gem3);
-            return <Gem2 style={styles.gem} />;
-          case "4":
-            console.log('Gem4 type:', typeof Gem4);
-            return <Gem4 style={styles.gem} />;
-          default:
-            return null;
+            case "1":
+              gemSource = Gem1;
+              break;
+            case "2":
+              gemSource = Gem2;
+              break;
+            case "3":
+              gemSource = Gem3;
+              break;
+            case "4":
+              gemSource = Gem4;
+              break;
+            default:
+              return null;
         }
+  
+          return <Image source={gemSource} style={styles.gem} />;
     };    
 
 
@@ -72,8 +61,6 @@ const CompactCard = ({ image, rarity, title, subtitle }) => {
         <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
       </View>
       <View>
-        {/* {renderGem()} */}
-        {/* <Text>Rarity: {String(rarity)}</Text> */}
         {renderGem(rarity)}
       </View>
       <Text style={[styles.title, { fontFamily: 'SourceCodePro-Medium' }]}>{title}</Text>
@@ -114,9 +101,9 @@ const styles = StyleSheet.create({
   gem: {
     position: 'absolute',
     right: 10,
-    top: 10,
-    width: 30,
-    height: 30,
+    top: -20,
+    width: 40,
+    height: 40,
     zIndex: 1,
   },
 });
