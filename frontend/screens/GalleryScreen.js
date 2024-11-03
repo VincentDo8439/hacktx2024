@@ -72,6 +72,7 @@ export default function GalleryScreen() {
         rarity={item.rarity}
         title={item.title}
         subtitle={item.subtitle}
+        hexCode={item.hexCode}
       />
     </Pressable>
   );
@@ -162,7 +163,6 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "90%",
-    backgroundColor: "white",
     borderRadius: 8,
     shadowColor: 'black',
     shadowOffset: { width: -7, height: 7 },

@@ -5,7 +5,7 @@ import GalleryScreen from "../screens/GalleryScreen";
 import CameraScreen from "../screens/CameraScreen";
 import TradingScreen from "../screens/TradingScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { TouchableHighlight, StyleSheet, Platform } from "react-native";
+import { TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const AnimatedIcon = ({ name, focused }) => (
   <Animated.View entering={BounceIn}>
-    <Ionicons name={name} size={24} color={focused ? "#68b2e3" : "#222"} />
+    <Ionicons name={name} size={24} color={focused ? "#6200ee" : "#222"} />
   </Animated.View>
 );
 
@@ -24,7 +24,7 @@ const AnimatedMaterialIcon = ({ name, focused }) => (
     <MaterialCommunityIcons
       name={name}
       size={24}
-      color={focused ? "#68b2e3" : "#222"}
+      color={focused ? "#6200ee" : "#222"}
     />
   </Animated.View>
 );
@@ -90,37 +90,32 @@ const BottomTabNavigator = () => {
 
 const CustomCameraButton = ({ onPress }) => (
   <Animated.View entering={BounceIn}>
-    <TouchableHighlight
-      style={styles.cameraButton}
-      onPress={onPress}
-      underlayColor="#68b2e3"
-    >
+    <TouchableOpacity style={styles.cameraButton} onPress={onPress}>
       <Ionicons name="camera" size={32} color="#fff" />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </Animated.View>
 );
 
 const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
-    height: 60,
-    paddingBottom: 30,
-    marginBottom: -25,
+    height: Platform.OS === "ios" ? 80 : 60,
+    paddingBottom: 10,
     paddingTop: 10,
     backgroundColor: "#fff",
     // Shadow properties for iOS
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 6,
     // Elevation for Android
     elevation: 10,
   },
   cameraButton: {
-    top: -35,
+    top: -30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#68b2e3",
+    backgroundColor: "#6200ee",
     width: 70,
     height: 70,
     borderRadius: 35,
