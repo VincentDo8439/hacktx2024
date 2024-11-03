@@ -94,16 +94,18 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontStyle: 'italic',
+    fontSize: 12,
     color: 'gray',
     padding: 5,
     paddingTop: 3,
   },
   gem: {
     position: 'absolute',
-    right: 10,
-    top: -20,
-    width: 40,
-    height: 40,
+    right: 5,
+    // top: -20,
+    top: 5,
+    width: 35,
+    height: 35,
     zIndex: 1,
   },
 });
