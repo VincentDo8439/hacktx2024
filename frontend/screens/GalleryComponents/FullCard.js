@@ -8,6 +8,7 @@ import {
   Animated,
   Easing,
   TouchableWithoutFeedback,
+  Linking
 } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -217,8 +218,13 @@ const FullCard = ({
                 <Text style={styles.tagText}>{date}</Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Read More Here</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                Linking.openURL("https://en.wikipedia.org/wiki/Raccoon")
+              }
+            >
+              <Text style={styles.buttonText}>Number Caught: 1</Text>
             </TouchableOpacity>
           </LinearGradient>
           {cardWidth > 0 && <Shimmer rarity={rarity} cardWidth={cardWidth} />}

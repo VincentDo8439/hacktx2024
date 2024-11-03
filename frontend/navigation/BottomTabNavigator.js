@@ -59,8 +59,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Camera"
-        // component={CameraScreen}
-        component={EmptyScreen}
+        component={CameraScreen}
         options={{
           tabBarButton: (props) => <CustomCameraButton {...props} />,
         }}
@@ -91,38 +90,13 @@ const BottomTabNavigator = () => {
 };
 
 // Custom button for the camera
-const CustomCameraButton = ({ onPress }) => {
-  const handleCameraPress = async () => {
-    // Request permission
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Camera access is required to take a photo.");
-      return;
-    }
-
-    // Launch the camera
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      console.log(result.uri); // Handle the photo taken
-      // You can also navigate to another screen to display the photo or handle it as needed
-    }
-  };
-  return (
-    <Animated.View entering={BounceIn}>
-      <TouchableHighlight
-        style={styles.cameraButton}
-        onPress={handleCameraPress}
-        underlayColor="#68B2B3"
-      >
-        <Ionicons name="camera" size={32} color="#fff" />
-      </TouchableHighlight>
-    </Animated.View>
-  );
-};
+const CustomCameraButton = ({ onPress }) => (
+  <Animated.View entering={BounceIn}>
+    <TouchableOpacity style={styles.cameraButton} onPress={onPress}>
+      <Ionicons name="camera" size={32} color="#fff" />
+    </TouchableOpacity>
+  </Animated.View>
+);
 
 const EmptyScreen = () => null;
 

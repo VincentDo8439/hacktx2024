@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  ImageBackground
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
@@ -14,8 +13,6 @@ import * as Location from 'expo-location';
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import uuid from 'react-native-uuid';
-import Svg, { Circle, Path } from 'react-native-svg';
-import bg from "./cameraBG.png";
 
 export default function CameraScreen() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -66,6 +63,7 @@ export default function CameraScreen() {
 
       // Get current timestamp
       setTimestamp(new Date().toISOString());
+
       setIsPreview(true);
     }
   };
@@ -125,7 +123,7 @@ export default function CameraScreen() {
         timestamp: timestamp, // Include timestamp
       };
 
-      const user_data = 'CiC5IAVavu9mYE0CqhCg'; // Replace with actual user ID or keep as hardcoded
+      const user_data = '0qiUVhOnSuSlD2HeRaec'; // Replace with actual user ID or keep as hardcoded
 
       const data = {
         card_data,
@@ -161,32 +159,30 @@ export default function CameraScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ImageBackground source={bg} style={styles.background}>
-        {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#1e90ff" />
-            <Text style={styles.text}>Processing your request...</Text>
-          </View>
-        ) : isPreview && photoUri ? (
-          <View style={styles.preview}>
-            <Image source={{ uri: photoUri }} style={styles.image} />
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={retakePicture}>
-                <Text style={styles.text}>Retake</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={submitPicture}>
-                <Text style={styles.text}>Submit</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.cameraContainer}>
-            <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
-              <Text style={styles.captureText}>Take Picture</Text>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#1e90ff" />
+          <Text style={styles.text}>Processing your request...</Text>
+        </View>
+      ) : isPreview && photoUri ? (
+        <View style={styles.preview}>
+          <Image source={{ uri: photoUri }} style={styles.image} />
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={retakePicture}>
+              <Text style={styles.text}>Retake</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={submitPicture}>
+              <Text style={styles.text}>Submit</Text>
             </TouchableOpacity>
           </View>
-        )}
-      </ImageBackground>
+        </View>
+      ) : (
+        <View style={styles.cameraContainer}>
+          <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
+            <Text style={styles.text}>Take Picture</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -194,16 +190,10 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: '#000',
   },
-  background: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 100,
-    left: 0,
-    right: 0,
-    bottom: 0,
   },
   cameraContainer: {
     flex: 1,
@@ -211,26 +201,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   captureButton: {
-    width: 180,
-    padding: 20,
-    backgroundColor: '#ff6f61', // Vibrant color
-    borderRadius: 10,
+    width: 150,
+    padding: 15,
+    backgroundColor: '#1e90ff',
+    borderRadius: 5,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-  },
-  captureText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   preview: {
     flex: 1,
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -244,20 +223,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
+    paddingBottom: 20,
   },
   button: {
     width: 100,
     padding: 15,
-    backgroundColor: '#ff6f61',
-    borderRadius: 10,
+    backgroundColor: '#1e90ff',
+    borderRadius: 5,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
   },
   text: {
     color: '#fff',
