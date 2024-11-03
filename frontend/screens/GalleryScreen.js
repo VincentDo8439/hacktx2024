@@ -7,6 +7,7 @@ import {
   Pressable,
   Text,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
@@ -25,38 +26,53 @@ export default function GalleryScreen() {
   const [modalAnimation, setModalAnimation] = useState('bounceIn');
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchCards = async () => {
       try {
-        // Replace with your actual API endpoint
         const response = await axios.get(
           'http://192.168.96.239:8000/card/view_gallery',
           {
-            params: { user_id: '0qiUVhOnSuSlD2HeRaec' }, // Replace with the actual user_id if needed
+            params: { user_id: '0qiUVhOnSuSlD2HeRaec' },
           }
         );
 
-        // Assuming response.data.cards is the array of cards from the API response
         const fetchedCards = response.data.cards.map((card) => ({
           id: card.card_id,
-          rarity: card.rarity, // Update this if your API has a different field for rarity
+          rarity: card.rarity,
           image: card.card_image_url,
           title: card.species_name,
           subtitle: card.scientific_name,
           facts: card.facts,
           hexCode: card.hex_code,
           original_image_url: card.image_url,
-          cityState: card.city || 'Unknown Location', // 'city' should come from reverse geocoding if necessary
-          date: new Date(card.timestamp).toLocaleString(), // Format the date as desired
+          cityState: card.city || 'Unknown Location',
+          date: new Date(card.timestamp).toLocaleString(),
         }));
-        setCardsData(fetchedCards);
-        setLoading(false);
+
+        const imageUrls = fetchedCards.map((card) => card.image);
+
+        const imagePrefetchPromises = imageUrls.map((url) => Image.prefetch(url));
+
+        await Promise.all(imagePrefetchPromises);
+
+        if (isMounted) {
+          setCardsData(fetchedCards);
+          setLoading(false);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchCards();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleCardPress = (item) => {
@@ -68,8 +84,8 @@ export default function GalleryScreen() {
     setModalAnimation('bounceOut');
     setTimeout(() => {
       setModalVisible(false);
-      setModalAnimation('bounceIn'); // Reset animation for next time
-    }, 500); // Duration should match the animation duration
+      setModalAnimation('bounceIn');
+    }, 500);
   };
 
   const renderItem = ({ item }) => (
@@ -155,6 +171,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     paddingBottom: 10,
+    shadowColor: 'black',
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   columnWrapper: {
     justifyContent: 'space-between',
@@ -172,6 +192,10 @@ const styles = StyleSheet.create({
   modalContent: {
     width: '90%',
     borderRadius: 8,
+    shadowColor: 'black',
+    shadowOffset: { width: -7, height: 7 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   centered: {
     flex: 1,

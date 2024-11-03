@@ -21,7 +21,7 @@ export default function CurrentTrades() {
     const fetchUserTrades = async () => {
       try {
         const response = await fetch(
-          `http://172.20.10.9:8000/trade/get_user_trades?id=CiC5IAVavu9mYE0CqhCg`
+          `http://192.168.96.239:8000/trade/get_user_trades?id=CiC5IAVavu9mYE0CqhCg`
         );
 
         if (!response.ok) {
@@ -79,7 +79,7 @@ export default function CurrentTrades() {
 
 
   const acceptTrade = async (tradeId) => {
-    const url = 'http://172.20.10.9:8000/trade/accept_trade'; // Replace with your actual backend URL
+    const url = 'http://192.168.96.239:8000/trade/accept_trade'; // Replace with your actual backend URL
     const data = {
       id: tradeId, // Include any other necessary data here
     };
@@ -108,7 +108,7 @@ export default function CurrentTrades() {
   }
 
   const declineTrade = async (tradeId) => {
-    const url = 'http://172.20.10.9:8000/trade/update_trade_status'; // Replace with your actual backend URL
+    const url = 'http://192.168.96.239:8000/trade/update_trade_status'; // Replace with your actual backend URL
     const data = {
       id: tradeId, // Include any other necessary data here
     };

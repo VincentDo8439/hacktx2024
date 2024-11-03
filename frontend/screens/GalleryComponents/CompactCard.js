@@ -15,8 +15,11 @@ const fetchFonts = () => {
   });
 };
 
+const DEFAULT_BACKGROUND_COLOR = '#f0f0f0'; // Default background color
+
 // Helper function to convert hex to RGB
 function hexToRgb(hex) {
+  if (!hex || typeof hex !== 'string') return null; // Handle undefined or non-string inputs
   hex = hex.replace(/^#/, '');
 
   let r, g, b;
@@ -123,8 +126,13 @@ function rgbToHex(r, g, b) {
 
 // Function to get a lighter version of the hex color
 function getLightColor(hexColor) {
+  if (!hexColor || typeof hexColor !== 'string') {
+    return DEFAULT_BACKGROUND_COLOR; // Return default color if hexColor is undefined or invalid
+  }
+
   const rgb = hexToRgb(hexColor);
-  if (!rgb) return hexColor; // Return the original color if invalid hex
+  if (!rgb) return DEFAULT_BACKGROUND_COLOR; // Return default color if invalid hex
+
   let hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
 
   // Increase the lightness to 90%
@@ -181,7 +189,7 @@ const CompactCard = ({ image, rarity, title, subtitle, hexCode }) => {
     return null; // Render nothing while fonts are loading
   }
 
-  // Get the lighter version of the hexCode
+  // Get the lighter version of the hexCode or default color
   const lightBackgroundColor = getLightColor(hexCode);
 
   return (

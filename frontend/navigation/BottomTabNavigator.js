@@ -5,7 +5,7 @@ import GalleryScreen from "../screens/GalleryScreen";
 import CameraScreen from "../screens/CameraScreen";
 import TradingScreen from "../screens/TradingScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { TouchableOpacity, StyleSheet, Platform } from "react-native";
+import { TouchableOpacity, StyleSheet, Platform, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';

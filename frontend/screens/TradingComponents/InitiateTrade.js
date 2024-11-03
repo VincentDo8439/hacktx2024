@@ -54,7 +54,7 @@ export default function InitiateTrade({ navigation }) {
       try {
         // Replace with your actual API endpoint
         const response = await axios.get(
-          "http://172.20.10.9:8000/card/view_tradable_cards",
+          "http://192.168.96.239:8000/card/view_tradable_cards",
           {
             params: { user_id: "CiC5IAVavu9mYE0CqhCg" }, // Replace with the actual user_id if needed
           }
