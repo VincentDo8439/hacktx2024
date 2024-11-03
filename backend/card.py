@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, request, jsonify
-from firebase import db, firebase_auth_required, firestore
+from firebase import db, firebase_auth_required, firestore, add_to_bucket
 
 card_routes = Blueprint('card_routes', __name__)
 
@@ -19,6 +19,10 @@ def create_card():
     # keep track of the main color of the image
 
     # add the image to the bucket 
+    card_download_url = add_to_bucket(card_data["image_url"], "card_images") # Need to update the image url
+    orig_download_url = add_to_bucket(card_data["image_url"], "original_images")
+    card_data["orig_image_url"] = orig_download_url
+    card_data["card_image_url"] = card_download_url
 
     # add the card to the list of documents
     card_ref = db.collection("cards").add(card_data) 

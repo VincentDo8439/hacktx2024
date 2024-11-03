@@ -1,14 +1,33 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapsScreen from '../screens/MapsScreen';
-import GalleryScreen from '../screens/GalleryScreen';
-import CameraScreen from '../screens/CameraScreen';
-import TradingScreen from '../screens/TradingScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MapsScreen from "../screens/MapsScreen";
+import GalleryScreen from "../screens/GalleryScreen";
+import CameraScreen from "../screens/CameraScreen";
+import TradingScreen from "../screens/TradingScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import { TouchableOpacity, StyleSheet, Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import Animated, { BounceIn } from "react-native-reanimated";
 
 const Tab = createBottomTabNavigator();
+
+const AnimatedIcon = ({ name, focused }) => (
+  <Animated.View entering={BounceIn}>
+    <Ionicons name={name} size={24} color={focused ? "#6200ee" : "#222"} />
+  </Animated.View>
+);
+
+const AnimatedMaterialIcon = ({ name, focused }) => (
+  <Animated.View entering={BounceIn}>
+    <MaterialCommunityIcons
+      name={name}
+      size={24}
+      color={focused ? "#6200ee" : "#222"}
+    />
+  </Animated.View>
+);
 
 const BottomTabNavigator = () => {
   return (
@@ -24,7 +43,7 @@ const BottomTabNavigator = () => {
         component={MapsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="map" size={24} color={focused ? '#6200ee' : '#222'} />
+            <AnimatedIcon name="map" focused={focused} />
           ),
         }}
       />
@@ -33,7 +52,7 @@ const BottomTabNavigator = () => {
         component={GalleryScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="images" size={24} color={focused ? '#6200ee' : '#222'} />
+            <AnimatedIcon name="images" focused={focused} />
           ),
         }}
       />
@@ -49,7 +68,10 @@ const BottomTabNavigator = () => {
         component={TradingScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="swap-horizontal" size={24} color={focused ? '#6200ee' : '#222'} />
+            <AnimatedMaterialIcon
+              name="swap-horizontal-bold"
+              focused={focused}
+            />
           ),
         }}
       />
@@ -58,7 +80,7 @@ const BottomTabNavigator = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="person" size={24} color={focused ? '#6200ee' : '#222'} />
+            <AnimatedIcon name="person" focused={focused} />
           ),
         }}
       />
@@ -67,23 +89,33 @@ const BottomTabNavigator = () => {
 };
 
 const CustomCameraButton = ({ onPress }) => (
-  <TouchableOpacity style={styles.cameraButton} onPress={onPress}>
-    <Ionicons name="camera" size={32} color="#fff" />
-  </TouchableOpacity>
+  <Animated.View entering={BounceIn}>
+    <TouchableOpacity style={styles.cameraButton} onPress={onPress}>
+      <Ionicons name="camera" size={32} color="#fff" />
+    </TouchableOpacity>
+  </Animated.View>
 );
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    position: 'absolute',
-    height: Platform.OS === 'ios' ? 80 : 60,
+    position: "absolute",
+    height: Platform.OS === "ios" ? 80 : 60,
     paddingBottom: 10,
     paddingTop: 10,
+    backgroundColor: "#fff",
+    // Shadow properties for iOS
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 6,
+    // Elevation for Android
+    elevation: 10,
   },
   cameraButton: {
     top: -30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#6200ee',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#6200ee",
     width: 70,
     height: 70,
     borderRadius: 35,
