@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import Gem1 from './gem1.png';
@@ -30,6 +31,14 @@ const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) =>
       return <AppLoading />;
     }
 
+    // temp: replace once we have hex code colors
+    const gradientColors = () => {
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F0E68C', '#FF33F6'];
+        const primaryColor = colors[Math.floor(Math.random() * colors.length)];
+        const secondaryColor = colors[Math.floor(Math.random() * colors.length)];
+        return [primaryColor, secondaryColor];
+    };
+
     const renderGem = (rarity) => {
         const rarityStr = String(rarity);
 
@@ -55,7 +64,7 @@ const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) =>
 
 
   return (
-    <View style={styles.card}>
+    <LinearGradient colors={gradientColors()} style={styles.card}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
       </View>
@@ -83,7 +92,7 @@ const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) =>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Read More Here</Text>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -93,6 +102,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
+    marginBottom: 10,
+    padding: 10,
     overflow: 'hidden',
   },
   imageContainer: {
@@ -184,9 +195,9 @@ const styles = StyleSheet.create({
   gem: {
     position: 'absolute',
     right: 30,
-    top: -35, 
-    width: 65, 
-    height: 65,
+    top: -30, 
+    width: 70, 
+    height: 70,
     zIndex: 1,
   },
 });
