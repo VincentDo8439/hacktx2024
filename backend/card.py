@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, request, jsonify
 from firebase import db, firebase_auth_required, firestore, add_to_bucket
-from openai import describe_image, find_primary_color, generate_image
+from openai_api import describe_image, generate_image, describe_hex
 
 card_routes = Blueprint('card_routes', __name__)
 
@@ -15,10 +15,15 @@ def create_card():
     # modify the card 
     card_data["user_id"] = user_id
 
-    # add the original image to the bucket
-    orig_download_url = add_to_bucket(card_data["image_url"], "original_images")
-    card_data["orig_image_url"] = orig_download_url
-    description = describe_image(orig_download_url)
+    # find description of the original image
+    orig_download_url = card_data["image_url"]
+    response = describe_image(orig_download_url)
+
+    card_data["species_name"] = response["species_name"]
+    card_data["scientific_name"] = response["scientific_name"]
+    card_data["facts"] = response["facts"]
+    card_data["description"] = response["description"]
+    description = response["description"]
 
     # create a new styled image for the card and add to bucket
     generated_image_url = generate_image(description)
@@ -26,7 +31,8 @@ def create_card():
     card_data["card_image_url"] = card_download_url
 
     # keep track of the main color of the image
-    hex_code = find_primary_color(card_download_url)
+    hex_code = describe_hex(card_download_url)
+    card_data["hex_code"] = hex_code
 
     # add the card to the list of documents
     card_ref = db.collection("cards").add(card_data) 

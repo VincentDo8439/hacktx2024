@@ -3,6 +3,7 @@ import base64
 import requests
 import os 
 from dotenv import load_dotenv
+import json
 
 load_dotenv() 
 
@@ -16,13 +17,13 @@ def encode_image(image_path):
 
 def describe_image(image_url):
     # API call to generate a description of the image
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
             "role": "user",
             "content": [
-                {"type": "text", "text": "Give me a two sentence description of this image"},
+                {"type": "text", "text": "Respond in a JSON. Provide the species of the animal as a value for the key \"species_name\", the scientific name for the species for the key \"scientific_name\", and 2 one-sentence interesting fun facts about the animal in the key \"facts\", and a two-sentence description of the image in the key \"description\"."},
                 {
                 "type": "image_url",
                 "image_url": {
@@ -34,12 +35,16 @@ def describe_image(image_url):
         ],
         max_tokens=300,
     )
-    api_description = response.choices[0].message['content'] 
-    return api_description
+    api_description = response.choices[0].message.content
+    json_string = api_description.strip('```json\n').strip('```').strip()
+    
+    # Convert the JSON string into a Python dictionary
+    json_data = json.loads(json_string)
+    return json_data
 
-def find_primary_color(image_url):
-    # API call to find the primary color of the animal in the image 
-    response_color = openai.ChatCompletion.create(
+def describe_hex(image_url):
+    # API call to generate a description of the image
+    response = openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
@@ -57,8 +62,9 @@ def find_primary_color(image_url):
         ],
         max_tokens=300,
     )
-    animal_color = response_color.choices[0].message['content'] 
-    return animal_color
+    print(response)
+    hex_code = response.choices[0].message.content
+    return hex_code
 
 def generate_image(description):
     api_description_final = description + " Make the image in the style of a 2D anime-like cartoon image with the animal(s) at the center. Make sure it's colored"

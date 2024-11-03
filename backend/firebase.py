@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from functools import wraps
 import requests
-import datetime
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -13,7 +13,7 @@ load_dotenv()
 # Access the API key and define the database
 api_key = os.getenv("firebase_key")
 cred = credentials.Certificate(api_key)
-firebase_admin.initialize_app(cred, {'storageBucket': 'hacktx-9757b.appspot.com'})
+firebase_admin.initialize_app(cred, {'storageBucket': 'hacktx-9757b.firebasestorage.app'})
 
 bucket = storage.bucket()
 db = firestore.client()
@@ -50,14 +50,25 @@ def add_to_bucket(image_url, directory):
     # Fetch the image from the provided URL
     response = requests.get(image_url)
 
+    # Check if the request was successful
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch image: {response.status_code}")
+
     # Get the blob data
-    blob = response.content
-    name = f"{directory}/{datetime.now().isoformat()}"
+    blob_data = response.content
+    name = f"{directory}/{datetime.now().isoformat()}.jpg"  # Add a file extension
 
     # Get a reference to the storage bucket
     blob = bucket.blob(name)
-    blob.upload_from_string(blob, content_type='image/jpeg')
+
+    # Upload the blob data to the storage bucket
+    blob.upload_from_string(blob_data, content_type='image/jpeg')
 
     # Generate the download URL
-    download_url = blob.public_url
+    download_url = blob.public_url 
+    print(download_url)
+
+    gs_url = f"gs://{bucket.name}/{blob.name}"
+    print(gs_url)
+    
     return download_url
