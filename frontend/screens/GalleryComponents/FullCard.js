@@ -184,9 +184,9 @@ const styles = StyleSheet.create({
   gem: {
     position: 'absolute',
     right: 30,
-    top: -35, 
-    width: 65, 
-    height: 65,
+    top: -30, 
+    width: 70, 
+    height: 70,
     zIndex: 1,
   },
 });
