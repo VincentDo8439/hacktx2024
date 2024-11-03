@@ -29,7 +29,7 @@ def create_card():
     data = request.get_json()
     card_data = data["card_data"]
     user_id = data["user_data"]
-
+    
     # modify the card 
     card_data["user_id"] = user_id
 
@@ -42,6 +42,7 @@ def create_card():
     card_data["facts"] = response["facts"]
     card_data["description"] = response["description"]
     card_data["rarity"] = response["rarity"]
+    
     
     description = response["description"]
 
