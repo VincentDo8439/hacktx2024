@@ -117,11 +117,25 @@ def view_tradable_cards():
 
     return jsonify({"message": "Retrieved list of tradable cards", "cards": tradable_cards}), 200
 
+@card_routes.route('/view_user_tradable_cards', methods=['GET'])
+def view_user_tradable_cards():
+    # retrieve user id
+    user_id = request.args["user_id"]
+    tradable_cards = []
+
+    # identify all the cards the user could trade with (i.e. they do own them)
+    all_cards = db.collection("cards").get()
+    for card_doc in all_cards:
+        card_data = card_doc.to_dict()
+        if card_data["user_id"] == user_id:
+            tradable_cards.append(card_data)
+
+    return jsonify({"message": "Retrieved list of tradable cards", "cards": tradable_cards}), 200
+
 @card_routes.route('/view_all_cards', methods=['GET'])
 def view_all_cards():
     all_cards = []
 
-    # identify all the cards the user could trade for (i.e. they do not own them)
     cards_array = db.collection("cards").get()
     for card_doc in cards_array:
         card_data = card_doc.to_dict()
