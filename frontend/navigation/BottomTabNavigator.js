@@ -1,5 +1,4 @@
 import React from "react";
-import { TouchableHighlight } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MapsScreen from "../screens/MapsScreen";
 import GalleryScreen from "../screens/GalleryScreen";
@@ -131,12 +130,12 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
     height: 60,
-    paddingBottom: 30,
-    marginBottom: -15,
-    paddingTop: 10,
+    paddingBottom: 10,
+    marginBottom: 0,
+    paddingTop: 0,
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
+    shadowOffset: { width: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 10,

@@ -55,7 +55,7 @@ export default function FinalizeTrade({ navigation, route }) {
       try {
         // Replace with your actual API endpoint
         const response = await axios.get(
-          "http://172.20.10.9:8000/card/view_user_tradable_cards",
+          "http://192.168.96.239:8000/card/view_user_tradable_cards",
           {
             params: { user_id: "CiC5IAVavu9mYE0CqhCg" }, // Replace with the actual user_id if needed
           }
@@ -92,7 +92,7 @@ export default function FinalizeTrade({ navigation, route }) {
 
   const completeTrade = async (user_card_id) => {
     console.log(user_card_id)
-    const url = "http://172.20.10.9:8000/trade/create_trade"; // Replace with your actual backend URL
+    const url = "http://192.168.96.239:8000/trade/create_trade"; // Replace with your actual backend URL
     const data = {
       card_id_one: user_card_id, // Include any other necessary data here
       card_id_two: card_id,

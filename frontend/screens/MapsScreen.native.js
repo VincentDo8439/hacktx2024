@@ -6,6 +6,7 @@ import { Modal, Portal, Button, Provider } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import axios from 'axios';
 import * as LocationGeocoding from 'expo-location';
+import FullCard from './GalleryComponents/FullCard';
 
 const MapsScreen = () => {
   // State variables
@@ -34,7 +35,9 @@ const MapsScreen = () => {
         setLocation(currentLocation.coords);
 
         // Fetch card data from backend API
-        const response = await axios.get(`http://192.168.96.239:8000/card/view_all_cards`);
+        const response = await axios.get(
+          `http://192.168.96.239:8000/card/view_all_cards`
+        );
         const cardsData = response.data;
 
         // Process each card to include the city name using reverse geocoding
@@ -43,8 +46,12 @@ const MapsScreen = () => {
             const { latitude, longitude } = card;
 
             // Reverse geocoding to get city name
-            let geocode = await LocationGeocoding.reverseGeocodeAsync({ latitude, longitude });
-            let city = geocode[0]?.city || geocode[0]?.name || 'Unknown Location';
+            let geocode = await LocationGeocoding.reverseGeocodeAsync({
+              latitude,
+              longitude,
+            });
+            let city =
+              geocode[0]?.city || geocode[0]?.name || 'Unknown Location';
 
             return {
               ...card,
@@ -120,7 +127,10 @@ const MapsScreen = () => {
               {markers.map((marker, index) => (
                 <Marker
                   key={index}
-                  coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                  coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                  }}
                   onPress={() => showModal(marker)}
                 />
               ))}
@@ -136,10 +146,7 @@ const MapsScreen = () => {
             <Modal
               visible={visible}
               onDismiss={hideModal}
-              contentContainerStyle={[
-                styles.modal,
-                { backgroundColor: selectedAnimal?.hex_code || 'white' },
-              ]}
+              contentContainerStyle={styles.modal}
             >
               {selectedAnimal && (
                 <Animatable.View
@@ -147,24 +154,15 @@ const MapsScreen = () => {
                   animation="bounceIn"
                   duration={600}
                 >
-                  <Text style={styles.animalName}>
-                    {selectedAnimal.species_name} ({selectedAnimal.scientific_name})
-                  </Text>
-                  <Image
-                    source={{ uri: selectedAnimal.card_image_url }}
-                    style={styles.animalImage}
+                  <FullCard
+                    image={selectedAnimal.card_image_url}
+                    rarity={selectedAnimal.rarity}
+                    title={selectedAnimal.species_name}
+                    subtitle={selectedAnimal.scientific_name}
+                    facts={selectedAnimal.facts || []} // Ensure facts is an array
+                    cityState={selectedAnimal.city}
+                    date={new Date(selectedAnimal.timestamp).toLocaleString()}
                   />
-                  <Text style={styles.animalLocation}>{selectedAnimal.city}</Text>
-                  <Text style={styles.animalTime}>
-                    {new Date(selectedAnimal.timestamp).toLocaleString()}
-                  </Text>
-                  <Button
-                    mode="contained"
-                    onPress={hideModal}
-                    style={styles.closeButton}
-                  >
-                    Close
-                  </Button>
                 </Animatable.View>
               )}
             </Modal>
@@ -184,37 +182,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modal: {
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
-  },
-  animalName: {
-    fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 10,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  animalLocation: {
-    fontSize: 18,
-    marginBottom: 5,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  animalTime: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  animalImage: {
-    width: '100%',
-    height: 200,
     borderRadius: 10,
-    marginBottom: 10,
-  },
-  closeButton: {
-    marginTop: 10,
+    overflow: 'hidden', // Ensure content doesn't spill outside modal
   },
   centered: {
     flex: 1,

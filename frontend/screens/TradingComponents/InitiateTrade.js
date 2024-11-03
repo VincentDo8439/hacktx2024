@@ -94,7 +94,7 @@ export default function InitiateTrade({ navigation }) {
     try {
       console.log(card_id);
       const response = await fetch(
-        `http://172.20.10.9:8000/card/get_card?card_id=${card_id}`
+        `http://192.168.96.239:8000/card/get_card?card_id=${card_id}`
       );
 
       console.log("GOT HERE");
