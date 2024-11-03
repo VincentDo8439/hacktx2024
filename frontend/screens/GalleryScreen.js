@@ -8,6 +8,7 @@ import FullCard from './GalleryComponents/FullCard';
 const DATA = [
   {
     id: '1',
+    rarity: "1",
     image: 'https://firebasestorage.googleapis.com/v0/b/hacktx-9757b.firebasestorage.app/o/card_images%2F2024-11-02T22%3A57%3A13.807171.jpg?alt=media&token=88d31e21-00a0-48d2-bdd6-8b56e9c5a26e',
     title: 'Racoon',
     subtitle: 'Northern Racoon',
@@ -19,6 +20,7 @@ const DATA = [
   },
   {
     id: '2',
+    rarity: "2",
     image: 'https://via.placeholder.com/150',
     title: 'Item 2',
     subtitle: 'Subtitle 2',
@@ -30,6 +32,7 @@ const DATA = [
   },
   {
     id: '3',
+    rarity: "3",
     image: 'https://via.placeholder.com/150',
     title: 'Item 3',
     subtitle: 'Subtitle 3',
@@ -41,6 +44,7 @@ const DATA = [
   },
   {
     id: '4',
+    rarity: "4",
     image: 'https://via.placeholder.com/150',
     title: 'Item 4',
     subtitle: 'Subtitle 4',
@@ -52,6 +56,7 @@ const DATA = [
   },
   {
     id: '5',
+    rarity: "1",
     image: 'https://via.placeholder.com/150',
     title: 'Item 5',
     subtitle: 'Subtitle 5',
@@ -63,6 +68,7 @@ const DATA = [
   },
   {
     id: '6',
+    rarity: "2",
     image: 'https://via.placeholder.com/150',
     title: 'Item 6',
     subtitle: 'Subtitle 6',
@@ -94,7 +100,7 @@ export default function GalleryScreen() {
 
   const renderItem = ({ item }) => (
     <Pressable onPress={() => handleCardPress(item)} style={styles.cardContainer}>
-      <CompactCard image={item.image} title={item.title} subtitle={item.subtitle} />
+      <CompactCard image={item.image} rarity={item.rarity} title={item.title} subtitle={item.subtitle} />
     </Pressable>
   );
 
@@ -118,6 +124,7 @@ export default function GalleryScreen() {
             {selectedItem && (
               <FullCard
                 image={selectedItem.image}
+                rarity={selectedItem.rarity}
                 title={selectedItem.title}
                 subtitle={selectedItem.subtitle}
                 facts={selectedItem.facts}

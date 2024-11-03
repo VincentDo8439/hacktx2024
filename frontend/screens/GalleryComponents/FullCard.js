@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import Gem1 from './gem1.svg';
+import Gem2 from './gem2.svg';
+import Gem3 from './gem3.svg';
+import Gem4 from './gem4.svg';
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -11,7 +15,7 @@ const fetchFonts = () => {
     });
   };
 
-const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
+const FullCard = ({ image, rarity, title, subtitle, facts, cityState, date }) => {
     const [fontLoaded, setFontLoaded] = useState(false);
 
     useEffect(() => {
@@ -26,10 +30,28 @@ const FullCard = ({ image, title, subtitle, facts, cityState, date }) => {
       return <AppLoading />;
     }
 
+    const renderGem = () => {
+        switch (rarity) {
+          case 1:
+            return <Gem1 style={styles.gem} />;
+          case 2:
+            return <Gem2 style={styles.gem} />;
+          case 3:
+            return <Gem3 style={styles.gem} />;
+          case 4:
+            return <Gem4 style={styles.gem} />;
+          default:
+            return null;
+        }
+      };
+
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: image }} style={styles.image} resizeMode="cover"/>
+        {renderGem()}
+      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
       <View style={styles.factsContainer}>
@@ -62,6 +84,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  imageContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 270,
   },
   image: {
     width: '100%',
@@ -143,6 +170,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
     fontWeight: 'bold',
+  },
+  gem: {
+    position: 'absolute',
+    right: 10,
+    top: 10, 
+    width: 30, 
+    height: 30,
+    zIndex: 1,
   },
 });
 
