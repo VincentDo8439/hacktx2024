@@ -44,9 +44,12 @@ def firebase_auth_required(f):
 
     return decorated_function
 
-# Adding an image to the storage bucket
-def add_to_bucket(image_url, directory):
+import uuid
+import urllib.parse
+from datetime import datetime
+import requests
 
+def add_to_bucket(image_url, directory):
     # Fetch the image from the provided URL
     response = requests.get(image_url)
 
@@ -64,11 +67,20 @@ def add_to_bucket(image_url, directory):
     # Upload the blob data to the storage bucket
     blob.upload_from_string(blob_data, content_type='image/jpeg')
 
-    # Generate the download URL
-    download_url = blob.public_url 
+    # Generate a UUID for the download token
+    download_token = str(uuid.uuid4())
+
+    # Set the metadata including the download token
+    metadata = {"firebaseStorageDownloadTokens": download_token}
+    blob.metadata = metadata
+
+    # Update the blob's metadata on the server
+    blob.patch()
+
+    # Construct the download URL
+    encoded_name = urllib.parse.quote(blob.name, safe='')
+    download_url = f"https://firebasestorage.googleapis.com/v0/b/{bucket.name}/o/{encoded_name}?alt=media&token={download_token}"
+
     print(download_url)
 
-    gs_url = f"gs://{bucket.name}/{blob.name}"
-    print(gs_url)
-    
     return download_url

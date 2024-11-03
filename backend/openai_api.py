@@ -23,7 +23,7 @@ def describe_image(image_url):
             {
             "role": "user",
             "content": [
-                {"type": "text", "text": "Respond in a JSON. Provide the species of the animal as a value for the key \"species_name\", the scientific name for the species for the key \"scientific_name\", and 2 one-sentence interesting fun facts about the animal in the key \"facts\", and a two-sentence description of the image in the key \"description\"."},
+                {"type": "text", "text": "Respond in a JSON. Provide the species of the animal as a value for the key \"species_name\", the scientific name for the species for the key \"scientific_name\", 2 one-sentence interesting fun facts about the animal in the key \"facts\", and a rarity score from 1 to 4 based on the animal's endanger level, where 4 is the most endangered, in the key \"rarity\", and a two-sentence description of the image in the key \"description\"."},
                 {
                 "type": "image_url",
                 "image_url": {

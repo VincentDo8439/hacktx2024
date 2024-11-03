@@ -17,17 +17,24 @@ def create_card():
 
     # find description of the original image
     orig_download_url = card_data["image_url"]
+    print(orig_download_url)
     response = describe_image(orig_download_url)
 
     card_data["species_name"] = response["species_name"]
     card_data["scientific_name"] = response["scientific_name"]
     card_data["facts"] = response["facts"]
     card_data["description"] = response["description"]
+    card_data["rarity"] = response["rarity"]
+    
     description = response["description"]
+
+    print(description)
 
     # create a new styled image for the card and add to bucket
     generated_image_url = generate_image(description)
+    print(generated_image_url)
     card_download_url = add_to_bucket(generated_image_url, "card_images")
+    print(card_download_url)
     card_data["card_image_url"] = card_download_url
 
     # keep track of the main color of the image
@@ -44,7 +51,7 @@ def create_card():
         "card_array": firestore.ArrayUnion([{"card_id": card_id, "is_owned": True}])
     })
 
-    return jsonify({"message": "Card created and added to user's collection.", "card_id": card_id}), 201
+    return jsonify({"message": "Card created and added to user's collection.", "card_data": card_data}), 201
 
 @card_routes.route('/view_gallery', methods=['GET'])
 def view_gallery():

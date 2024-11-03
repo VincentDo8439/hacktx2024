@@ -99,7 +99,7 @@ export default function CameraScreen() {
         timestamp: timestamp, // Include timestamp
       };
 
-      const user_data = 'hardcoded_user_id'; // Replace with actual user ID or keep as hardcoded
+      const user_data = '0qiUVhOnSuSlD2HeRaec'; // Replace with actual user ID or keep as hardcoded
 
       const data = {
         card_data,
@@ -110,7 +110,7 @@ export default function CameraScreen() {
 
       // Call the backend API
       // CALL WHEN THE BACKEND IS HOSTED
-      const response2 = await fetch('https://your-backend-api.com/create_card', {
+      const response2 = await fetch('http://192.168.96.239:8000/card/create_card', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
