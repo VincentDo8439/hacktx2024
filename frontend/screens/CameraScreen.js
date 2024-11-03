@@ -110,7 +110,7 @@ export default function CameraScreen() {
 
       // Call the backend API
       // CALL WHEN THE BACKEND IS HOSTED
-      const response2 = await fetch('http://192.168.96.239:8000/card/create_card', {
+      const response2 = await fetch(`${process.env.REACT_APP_BACKEND}/card/create_card`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

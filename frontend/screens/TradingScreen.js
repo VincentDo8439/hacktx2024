@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function TradingScreen() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>TradingScreen Screen</Text>
+        <Text>Trading Screen Screen</Text>
       </SafeAreaView>
     );
   }
