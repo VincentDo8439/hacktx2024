@@ -9,7 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const AnimatedIcon = ({ name, focused }) => (
   <Animated.View entering={BounceIn}>
-    <Ionicons name={name} size={24} color={focused ? "#68b2e3" : "#000"} />
+    <Ionicons name={name} size={24} color={focused ? "#68b2b3" : "#000"} />
   </Animated.View>
 );
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: -40
   },
   tabBarIndicator: {
-    backgroundColor: "#68b2e3", // Color of the active tab indicator
+    backgroundColor: "#68b2b3", // Color of the active tab indicator
     height: 3,
   }
 });
