@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -16,15 +16,23 @@ export default function ProfileScreen() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
-    fetchFonts()
-      .then(() => {
+    const loadResources = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync(); // Prevent the splash screen from auto-hiding
+        await fetchFonts(); // Load fonts
         setFontLoaded(true);
-      })
-      .catch((error) => console.error(error));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        await SplashScreen.hideAsync(); // Hide the splash screen once fonts are loaded
+      }
+    };
+
+    loadResources();
   }, []);
 
   if (!fontLoaded) {
-    return <AppLoading />;
+    return null; // Render nothing while fonts are loading
   }
 
   return (
@@ -46,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: '50%'
+    marginBottom: "50%",
   },
   title: {
     fontFamily: "SourceCodePro-Medium",
