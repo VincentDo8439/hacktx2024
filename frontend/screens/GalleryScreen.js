@@ -33,7 +33,7 @@ export default function GalleryScreen() {
         const response = await axios.get(
           'http://192.168.96.239:8000/card/view_gallery',
           {
-            params: { user_id: '0qiUVhOnSuSlD2HeRaec' },
+            params: { user_id: 'CiC5IAVavu9mYE0CqhCg' },
           }
         );
 

@@ -10,10 +10,37 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import CompactCard from "../GalleryComponents/CompactCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "SourceCodePro-Regular": require("../.././assets/fonts/SourceCodePro-Regular.ttf"),
+    "SourceCodePro-Medium": require("../.././assets/fonts/SourceCodePro-Medium.ttf"),
+    "SourceCodePro-Italic": require("../.././assets/fonts/SourceCodePro-Italic.ttf"),
+  });
+};
+
 
 export default function CurrentTrades() {
   const [trades, setTrades] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadResources = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+        await fetchFonts();
+        setFontLoaded(true);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        await SplashScreen.hideAsync();
+      }
+    };
+
+    loadResources();
+  }, []);
 
   useEffect(() => {
     const fetchUserTrades = async () => {
@@ -44,6 +71,7 @@ export default function CurrentTrades() {
     };
 
     try {
+      console.log(data)
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -52,12 +80,13 @@ export default function CurrentTrades() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json()
+      console.log(result)
       if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(errorResponse.error || "Something went wrong");
+        console.log("here")
+        throw new Error(result.error || "Something went wrong");
       }
 
-      const result = await response.json();
       return result;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -174,7 +203,12 @@ const styles = StyleSheet.create({
   },
   tradeContainer: {
     marginVertical: 10,
-    paddingHorizontal: 10,
+    marginHorizontal: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+    borderWidth: '1px solid',
+    borderRadius: 10,
+    
   },
   cardContainer: {
     flexDirection: "row",
@@ -215,5 +249,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "bold",
+    fontFamily: 'SourceCodePro-Regular'
   },
+  text: {
+    fontFamily: 'SourceCodePro-Regular',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: '10%'
+  }
 });

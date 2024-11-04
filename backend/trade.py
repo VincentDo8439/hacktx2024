@@ -67,6 +67,8 @@ def get_user_trades():
     for doc in docs:
         trade_data = doc.to_dict()
         if trade_data.get("user_id_one") == user_id or trade_data.get("user_id_two") == user_id:
+            if trade_data.get("set_active") == False:
+                continue
             trade_data['id'] = doc.id  # Add document ID to data for reference
 
             card_ref = db.collection("cards").document(trade_data['card_id_one'])
@@ -113,7 +115,7 @@ def accept_trade():
     # Get the user's card_array and update it with card_id_two
     user_data = user_doc_one.to_dict()
     card_array = user_data.get("card_array", [])  # Default to empty array if not present
-    card_array.append(card_id_two)
+    card_array.append({"card_id": card_id_two, "is_owned": True})
 
     user_ref_one.update({"card_array": card_array})
 
@@ -127,7 +129,7 @@ def accept_trade():
     # Get the user's card_array and update it with card_id_two
     user_data_two = user_doc_two.to_dict()
     card_array = user_data_two.get("card_array", [])  # Default to empty array if not present
-    card_array.append(card_id_one)
+    card_array.append({"card_id": card_id_one, "is_owned": True})
 
     user_ref_two.update({"card_array": card_array})
 
@@ -180,4 +182,4 @@ def accept_trade():
     # Update the user document with the modified card_array
     user_ref_two.update({"card_array": card_array})
 
-    return "Success"
+    return jsonify({"message": "success"}), 200
